@@ -1,4 +1,4 @@
-package stef.asteroidchallenge;
+package stef.asteroidchallenge.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;

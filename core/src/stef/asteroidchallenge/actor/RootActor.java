@@ -1,4 +1,4 @@
-package stef.asteroidchallenge;
+package stef.asteroidchallenge.actor;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -42,6 +42,14 @@ public class RootActor extends Actor{
         this.setSize(width, height);
         //point around which the actor should be rotated
         this.setOrigin(width / 2, height / 2);
+    }
+
+    /**
+     * Multiplies the actors size by the given factor.
+     */
+    public void resize(float factor) {
+        setSize(getWidth() * factor, getHeight() * factor);
+        setOrigin(getWidth() / 2, getHeight() / 2);
     }
 
     @Override

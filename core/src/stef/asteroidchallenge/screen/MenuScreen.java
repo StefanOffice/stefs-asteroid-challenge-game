@@ -1,11 +1,15 @@
-package stef.asteroidchallenge;
+package stef.asteroidchallenge.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+import stef.asteroidchallenge.AsteroidGame;
+import stef.asteroidchallenge.util.AnimationCreator;
+import stef.asteroidchallenge.actor.RootActor;
 
-public class MenuScreen extends AbstractScreen{
+
+public class MenuScreen extends AbstractScreen {
 
     @Override
     public void initialize() {
@@ -37,7 +41,7 @@ public class MenuScreen extends AbstractScreen{
     public boolean keyDown(int keycode) {
         //if enter is pressed switch start the game
         if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            //TODO this is where the transition to level screen will go, once i create it
+            AsteroidGame.setActiveScreen(new LevelScreen());
         }
         return false;
     }

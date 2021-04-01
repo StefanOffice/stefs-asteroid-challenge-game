@@ -1,4 +1,4 @@
-package stef.asteroidchallenge;
+package stef.asteroidchallenge.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
