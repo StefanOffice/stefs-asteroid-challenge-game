@@ -47,6 +47,37 @@ public class AnimationCreator {
         return animation;
     }
 
+    /**
+     * Creates an animation from separate image files
+     * @param fileNames - array containing relative paths to the files used for creating the animation
+     * @param frameDuration - how long should each frame be displayed for in seconds
+     * @param loop - determines wether to create a continuous animation
+     * @return - The animation created based on passed in parameters
+     */
+    public static Animation<TextureRegion> createAnimationFromFiles(String[] fileNames, float frameDuration, boolean loop) {
+        int fileCount = fileNames.length;
+        Array<TextureRegion> textureArray = new Array<>();
+
+        //create a texture region for each image file and add it to the array
+        for (int n = 0; n < fileCount; n++) {
+            String fileName = fileNames[n];
+            Texture texture = new Texture(fileName);
+            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            textureArray.add(new TextureRegion(texture));
+        }
+
+        //create an animation from the above formed array of texture regions
+        Animation<TextureRegion> animation = new Animation<>(frameDuration, textureArray);
+
+        //should the animation be looped?
+        if (loop)
+            animation.setPlayMode(Animation.PlayMode.LOOP);
+        else
+            animation.setPlayMode(Animation.PlayMode.NORMAL);
+
+        return animation;
+    }
+
 
     /**
      * Creates an 'animation' from single image file
