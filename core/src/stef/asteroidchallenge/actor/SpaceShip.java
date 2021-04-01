@@ -12,6 +12,12 @@ public class SpaceShip extends RootActor {
         super(x, y, stage);
         setAnimation(AnimationCreator.loadTexture("spaceship.png"));
         resize(0.2f);
+        //overwrite the default speed settings(from RootActor)
+        setAcceleration(50);
+        setMaxSpeed(200);
+        setDeceleration(50);
+        //can't stand perfectly still in space :P
+        setMinSpeed(4);
     }
 
     @Override
@@ -23,7 +29,10 @@ public class SpaceShip extends RootActor {
             rotateBy(degreesPerSecond * dt);
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             rotateBy(-degreesPerSecond * dt);
+        if(Gdx.input.isKeyPressed(Input.Keys.UP))
+            addForwardAcceleration();
 
+        applyMovement(dt);
     }
 
 }
