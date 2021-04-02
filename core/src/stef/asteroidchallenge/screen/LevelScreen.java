@@ -15,6 +15,7 @@ public class LevelScreen extends AbstractScreen {
         RootActor space = new RootActor(0,0, mainStage);
         space.setAnimation(AnimationCreator.loadTexture("space-1.png"));
         space.setSize(1280, 720);
+        RootActor.setWorldBounds(space);
 
         spaceship = new SpaceShip(1280/2f,720/2f, mainStage);
 

@@ -32,5 +32,6 @@ public class Asteroid extends RootActor{
     public void act(float dt){
         super.act(dt);
         applyMovement(dt);
+        wrapAroundWorld();
     }
 }

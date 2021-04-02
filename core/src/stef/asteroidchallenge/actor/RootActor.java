@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class RootActor extends Group{
+
+    private static Rectangle worldBounds;
 
     private Animation<TextureRegion> animation;
     private float elapsedTime;
@@ -102,6 +105,25 @@ public class RootActor extends Group{
         accelerationVec.set(0, 0);
     }
 
+    /**
+     * Treat the game world as a 'globe'.
+     * For example: if a player leaves the screen on the left edge,
+     * it will appear on the right edge, as it has 'circled around' the map and vice versa
+     */
+    public void wrapAroundWorld() {
+        if (getX() + getWidth() < 0)
+            setX(worldBounds.width);
+
+        if (getX() > worldBounds.width)
+            setX(-getWidth());
+
+        if (getY() + getHeight() < 0)
+            setY(worldBounds.height);
+
+        if (getY() > worldBounds.height)
+            setY(-getHeight());
+    }
+
     public void setMaxSpeed(float ms) {
         maxSpeed = ms;
     }
@@ -156,6 +178,14 @@ public class RootActor extends Group{
         }
         //not all of these change all the time, they are there in case they get changed
         super.draw(batch, parentAlpha);
+    }
+
+    public static void setWorldBounds(RootActor background) {
+        setWorldBounds(background.getWidth(), background.getHeight());
+    }
+
+    public static void setWorldBounds(float width, float height) {
+        worldBounds = new Rectangle(0, 0, width, height);
     }
 
 

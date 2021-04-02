@@ -52,6 +52,7 @@ public class SpaceShip extends RootActor {
         }
 
         applyMovement(dt);
+        wrapAroundWorld();
     }
 
 }
