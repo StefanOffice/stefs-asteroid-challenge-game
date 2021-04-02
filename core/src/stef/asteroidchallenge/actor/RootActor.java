@@ -110,11 +110,14 @@ public class RootActor extends Group{
     }
 
     public void setSpeed(float speed) {
-            velocityVec.setLength(speed);
+        velocityVec.setLength(speed);
     }
 
     public float getSpeed() {
         return velocityVec.len();
+    }
+    public void setMotionAngle(float angle) {
+        velocityVec.setAngleDeg(angle);
     }
 
 
@@ -149,6 +152,8 @@ public class RootActor extends Group{
         //not all of these change all the time, they are there in case they get changed
         super.draw(batch, parentAlpha);
     }
+
+
 
 
 }
