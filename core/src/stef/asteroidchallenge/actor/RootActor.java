@@ -110,6 +110,11 @@ public class RootActor extends Group{
     }
 
     public void setSpeed(float speed) {
+        //adding this to give initial movement
+        //otherwise actors would stand in place until given initial push
+        if (velocityVec.len() == 0)
+            velocityVec.set(speed, 0);
+        else
         velocityVec.setLength(speed);
     }
 
