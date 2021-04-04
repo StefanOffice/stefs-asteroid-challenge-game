@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,6 +27,9 @@ public class RootActor extends Group{
     private float maxSpeed;
     private float minSpeed;
     private float deceleration;
+
+    //for collision detection
+    private Polygon boundaryPolygon;
 
 
     public RootActor(float x, float y, Stage s) {
@@ -63,6 +68,8 @@ public class RootActor extends Group{
         this.setSize(width, height);
         //point around which the actor should be rotated
         this.setOrigin(width / 2, height / 2);
+        //set initial rectangular boundary polygon
+        setBoundaryPolygon(4);
     }
 
 
@@ -155,6 +162,11 @@ public class RootActor extends Group{
     public void resize(float factor) {
         setSize(getWidth() * factor, getHeight() * factor);
         setOrigin(getWidth() / 2, getHeight() / 2);
+        //create a new boundary polygon, with same amount of sides as previously defined
+        // divided by 2 because 2 vertices define 1 connection point ( 4 side polygon will have 8 vertices)
+        System.out.println(boundaryPolygon.getVertices().length);
+        setBoundaryPolygon(boundaryPolygon.getVertices().length/2);
+        System.out.println(boundaryPolygon.getVertices().length);
     }
 
     @Override
@@ -186,6 +198,58 @@ public class RootActor extends Group{
 
     public static void setWorldBounds(float width, float height) {
         worldBounds = new Rectangle(0, 0, width, height);
+    }
+
+    /**
+     * Checks to see if this actor collides with the specified actor
+     * @return - true if this actor collides with the other
+     */
+    public boolean overlaps(RootActor other) {
+        Polygon poly1 = this.getBoundaryPolygon();
+        Polygon poly2 = other.getBoundaryPolygon();
+        //initial test to improve performance
+        if (!poly1.getBoundingRectangle().overlaps(poly2.getBoundingRectangle()))
+            return false;
+
+        return Intersector.overlapConvexPolygons(poly1, poly2);
+    }
+
+    /**
+     * Creates and sets this actors boundary polygon(that is used in collision detection),
+     * based on the actor's width and height.(do not call this method before these are set)
+     * @param numSides - desired number of sides for the polygon
+     */
+    //do not call this method before the size of the actor has been set
+    //either manually (setSize()) or automatically from setAnimation method
+    //because it requires values for width and height to be set
+    public void setBoundaryPolygon(int numSides) {
+        float w = getWidth();
+        float h = getHeight();
+
+        float[] vertices = new float[2 * numSides];
+        for (int i = 0; i < numSides; i++) {
+            //2Pi radian is 360 degrees
+            //and we want the points to be evenly spaced
+            float angle = i * (6.28f / numSides);
+            //x coordinate
+            vertices[2 * i] = w / 2 * MathUtils.cos(angle) + w / 2;
+            //y coordinate
+            vertices[2 * i + 1] = h / 2 * MathUtils.sin(angle) + h / 2;
+        }
+        boundaryPolygon = new Polygon(vertices);
+    }
+
+    /**
+     * @return - this actors boundary polygon
+     */
+    public Polygon getBoundaryPolygon() {
+        //make sure that the boundary polygon is centered on the actor before returning it,
+        //as it's the basis which will determine whether the actor collided with another actor
+        boundaryPolygon.setPosition(getX(), getY());
+        boundaryPolygon.setOrigin(getOriginX(), getOriginY());
+        boundaryPolygon.setRotation(getRotation());
+        boundaryPolygon.setScale(getScaleX(), getScaleY());
+        return boundaryPolygon;
     }
 
 

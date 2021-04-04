@@ -4,6 +4,7 @@ package stef.asteroidchallenge.screen;
 import stef.asteroidchallenge.actor.Asteroid;
 import stef.asteroidchallenge.actor.RootActor;
 import stef.asteroidchallenge.actor.SpaceShip;
+import stef.asteroidchallenge.util.ActorCollector;
 import stef.asteroidchallenge.util.AnimationCreator;
 
 public class LevelScreen extends AbstractScreen {
@@ -32,5 +33,12 @@ public class LevelScreen extends AbstractScreen {
     @Override
     public void update(float dt){
 
+        for (Asteroid asteroid : ActorCollector.getActiveInstanceList(mainStage, Asteroid.class)) {
+            //if player gets hit by the asteroid
+            if (asteroid.overlaps(spaceship)) {
+                    spaceship.remove();
+                    spaceship.setPosition(-1000, -1000);
+            }
+        }
     }
 }
