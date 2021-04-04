@@ -1,8 +1,12 @@
 package stef.asteroidchallenge.screen;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+
 import stef.asteroidchallenge.actor.Asteroid;
 import stef.asteroidchallenge.actor.Explosion;
+import stef.asteroidchallenge.actor.Laser;
 import stef.asteroidchallenge.actor.RootActor;
 import stef.asteroidchallenge.actor.SpaceShip;
 import stef.asteroidchallenge.util.ActorCollector;
@@ -46,5 +50,17 @@ public class LevelScreen extends AbstractScreen {
                     spaceship.setPosition(-1000, -1000);
             }
         }
+
+    }
+
+    @Override
+    //all the user controls are defined here
+    public boolean keyDown(int keycode) {
+
+        // if the player presses 'space' on the keyboard, fire a laser
+        if (keycode == Input.Keys.SPACE)
+                spaceship.shoot();
+
+        return false;
     }
 }

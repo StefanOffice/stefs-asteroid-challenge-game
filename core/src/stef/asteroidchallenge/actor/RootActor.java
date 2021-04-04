@@ -275,4 +275,8 @@ public class RootActor extends Group{
         setPosition(x - (getWidth() / 2), y - (getHeight() / 2));
     }
 
+    public void setOpacity(float opacity) {
+        this.getColor().a = opacity;
+    }
+
 }

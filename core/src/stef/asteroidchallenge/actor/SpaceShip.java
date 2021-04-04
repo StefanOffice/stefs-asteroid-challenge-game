@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import stef.asteroidchallenge.util.ActorCollector;
 import stef.asteroidchallenge.util.AnimationCreator;
 
 public class SpaceShip extends RootActor {
@@ -53,6 +54,23 @@ public class SpaceShip extends RootActor {
 
         applyMovement(dt);
         wrapAroundWorld();
+    }
+
+    /**
+     * Fires a laser in a direction that the spaceship is facing
+     * that flies straight until it hits something or loses power
+     */
+    public void shoot(){
+        if(getStage() == null)
+            return;
+
+        Laser laser = new Laser(0, 0, this.getStage());
+        //set the laser staring position at the center of the ship
+        laser.centerAtActor(this);
+        //rotate it and set the movement angle so that it flies out in a straight line
+        laser.setRotation(this.getRotation());
+        laser.setMotionAngle(this.getRotation());
+
     }
 
 }
