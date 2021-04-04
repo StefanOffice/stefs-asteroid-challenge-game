@@ -252,7 +252,27 @@ public class RootActor extends Group{
         return boundaryPolygon;
     }
 
+    public boolean isAnimationFinished() {
+        return animation.isAnimationFinished(elapsedTime);
+    }
 
+    /**
+     * Adjust this actors center to be in the same spot as the center of the specified actor.
+     *
+     * @param other - the actor whose position should be used to position the center of the current actor
+     */
+    public void centerAtActor(RootActor other) {
+        //put this actors center at the center of another actor
+        float otherCenterX = other.getX() + (other.getWidth() / 2);
+        float otherCenterY = other.getY() + (other.getHeight() / 2);
+        centerAtPosition(otherCenterX, otherCenterY);
+    }
 
+    /**
+     * Move this actor so that it's center is on the specified coordinates
+     */
+    public void centerAtPosition(float x, float y) {
+        setPosition(x - (getWidth() / 2), y - (getHeight() / 2));
+    }
 
 }
