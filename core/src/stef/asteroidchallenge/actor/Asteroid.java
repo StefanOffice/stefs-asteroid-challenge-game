@@ -28,6 +28,23 @@ public class Asteroid extends RootActor{
         setMotionAngle(MathUtils.random(360));
     }
 
+    /** Specialized constructor used when breaking an asteroid
+     * to simplify the process of spawning new asteroids
+     * @param parent - the asteroid from which new asteroids are formed
+     * @param motionAngle - angle of motion for the new asteroid
+     */
+    public Asteroid(Asteroid parent, float motionAngle){
+        this(0,0, parent.getStage());
+        //mostly doubling the parent values, and reducing the size to half the parent size
+        while(getWidth() * 2 > parent.getWidth())
+            resize(0.8f);
+        setSpeed(parent.getSpeed()*2);
+        setDeceleration(5);
+        setMotionAngle(motionAngle);
+        centerAtActor(parent);
+        setMinSpeed(250);
+    }
+
     @Override
     public void act(float dt){
         super.act(dt);

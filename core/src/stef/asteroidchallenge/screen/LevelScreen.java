@@ -95,6 +95,12 @@ public class LevelScreen extends AbstractScreen {
                     Explosion explosion = new Explosion(0, 0, mainStage);
                     explosion.resize(1.5f);
                     explosion.centerAtActor(asteroid);
+                    //spawn new asteroids if the destroyed asteroids was large enough to break
+                    if (asteroid.getWidth() > 32) {
+                        Asteroid asteroid1 = new Asteroid(asteroid, laser.getMotionAngle());
+                        Asteroid asteroid2 = new Asteroid(asteroid, laser.getMotionAngle() - 45);
+                        Asteroid asteroid3 = new Asteroid(asteroid, laser.getMotionAngle() + 45);
+                    }
                     laser.remove();
                     asteroid.remove();
                 }

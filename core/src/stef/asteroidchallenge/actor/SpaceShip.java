@@ -4,14 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import stef.asteroidchallenge.util.ActorCollector;
 import stef.asteroidchallenge.util.AnimationCreator;
 
 public class SpaceShip extends RootActor {
 
-    private final Thrusters thrusters;
-    private final Thrusters thrusters2;
-
+    private final Thruster thruster1;
+    private final Thruster thruster2;
     private final Shield shield;
 
     public SpaceShip(float x, float y, Stage stage) {
@@ -25,15 +23,15 @@ public class SpaceShip extends RootActor {
         //can't stand perfectly still in space :P
         setMinSpeed(4);
 
-        thrusters = new Thrusters(0, 0);
-        thrusters2 = new Thrusters(0,0);
-        addActor(thrusters);
-        addActor(thrusters2);
+        thruster1 = new Thruster(0, 0);
+        thruster2 = new Thruster(0,0);
+        addActor(thruster1);
+        addActor(thruster2);
         //add thrusters behind the ship on x axis
         //and put vertical center of thrusters, on vertical center of the spaceship
-        float heightCenter = getHeight() / 2 - thrusters.getHeight()/2;
-        thrusters.setPosition(-thrusters.getWidth(), heightCenter - getHeight()/9f);
-        thrusters2.setPosition(-thrusters2.getWidth(), heightCenter + getHeight()/9f);
+        float heightCenter = getHeight() / 2 - thruster1.getHeight()/2;
+        thruster1.setPosition(-thruster1.getWidth(), heightCenter - getHeight()/9f);
+        thruster2.setPosition(-thruster2.getWidth(), heightCenter + getHeight()/9f);
 
         shield = new Shield(0,0);
         addActor(shield);
@@ -53,11 +51,11 @@ public class SpaceShip extends RootActor {
             rotateBy(-degreesPerSecond * dt);
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
             addForwardAcceleration();
-            thrusters.setVisible(true);
-            thrusters2.setVisible(true);
+            thruster1.setVisible(true);
+            thruster2.setVisible(true);
         } else {
-            thrusters.setVisible(false);
-            thrusters2.setVisible(false);
+            thruster1.setVisible(false);
+            thruster2.setVisible(false);
         }
 
         applyMovement(dt);

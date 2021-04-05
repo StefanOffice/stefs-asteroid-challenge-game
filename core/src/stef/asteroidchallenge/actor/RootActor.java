@@ -277,4 +277,8 @@ public class RootActor extends Group{
         this.getColor().a = opacity;
     }
 
+    public float getMotionAngle() {
+        return velocityVec.angleDeg();
+    }
+
 }
