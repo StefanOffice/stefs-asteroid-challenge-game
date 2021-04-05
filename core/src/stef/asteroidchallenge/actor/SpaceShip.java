@@ -12,13 +12,15 @@ public class SpaceShip extends RootActor {
     private final Thrusters thrusters;
     private final Thrusters thrusters2;
 
+    private final Shield shield;
+
     public SpaceShip(float x, float y, Stage stage) {
         super(x, y, stage);
         setAnimation(AnimationCreator.loadTexture("spaceship.png"));
         resize(0.2f);
         //overwrite the default speed settings(from RootActor)
-        setAcceleration(50);
-        setMaxSpeed(200);
+        setAcceleration(300);
+        setMaxSpeed(250);
         setDeceleration(50);
         //can't stand perfectly still in space :P
         setMinSpeed(4);
@@ -32,6 +34,12 @@ public class SpaceShip extends RootActor {
         float heightCenter = getHeight() / 2 - thrusters.getHeight()/2;
         thrusters.setPosition(-thrusters.getWidth(), heightCenter - getHeight()/9f);
         thrusters2.setPosition(-thrusters2.getWidth(), heightCenter + getHeight()/9f);
+
+        shield = new Shield(0,0);
+        addActor(shield);
+        //center the shield on the spaceship center
+        //the shields position is relative to the ship therefore can't use center at actor
+        shield.centerAtPosition(getWidth()/2, getHeight()/2);
     }
 
     @Override
@@ -73,4 +81,7 @@ public class SpaceShip extends RootActor {
 
     }
 
+    public Shield getShield() {
+        return shield;
+    }
 }

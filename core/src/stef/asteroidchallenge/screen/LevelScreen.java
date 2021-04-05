@@ -28,12 +28,12 @@ public class LevelScreen extends AbstractScreen {
     public void initialize() {
         playing = true;
 
-        RootActor space = new RootActor(0,0, mainStage);
+        RootActor space = new RootActor(0, 0, mainStage);
         space.setAnimation(AnimationCreator.loadTexture("space-1.png"));
         space.setSize(1280, 720);
         RootActor.setWorldBounds(space);
 
-        spaceship = new SpaceShip(1280/2f,720/2f, mainStage);
+        spaceship = new SpaceShip(1280 / 2f, 720 / 2f, mainStage);
 
         //create the starting asteroids
         for (int i = 0; i < STARTING_ASTEROIDS; i++) {
@@ -64,19 +64,28 @@ public class LevelScreen extends AbstractScreen {
     }
 
     @Override
-    public void update(float dt){
+    public void update(float dt) {
 
         for (Asteroid asteroid : ActorCollector.getActiveInstanceList(mainStage, Asteroid.class)) {
             //if player gets hit by the asteroid
             if (asteroid.overlaps(spaceship)) {
+
+                Explosion explosion = new Explosion(0, 0, mainStage);
+
+                if (spaceship.getShield().getPower() <= 0) {
                     //create an explosion and center it at the spaceship
-                    Explosion explosion = new Explosion(0, 0, mainStage);
                     explosion.resize(2f);
                     explosion.centerAtActor(spaceship);
                     //remove the spaceship from the stage as it was destroyed by the asteroid
                     showEndMsg(false);
                     spaceship.remove();
                     spaceship.setPosition(-1000, -1000);
+                } else {
+                    //if player still has a shield, damage it
+                    spaceship.getShield().modifyPower(-34);
+                    explosion.centerAtActor(asteroid);
+                    asteroid.remove();
+                }
             }
 
             for (Laser laser : ActorCollector.getActiveInstanceList(mainStage, Laser.class)) {
@@ -104,7 +113,7 @@ public class LevelScreen extends AbstractScreen {
 
         // if the player presses 'space' on the keyboard, fire a laser
         if (playing && keycode == Input.Keys.SPACE)
-                spaceship.shoot();
+            spaceship.shoot();
 
         return false;
     }

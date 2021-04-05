@@ -164,9 +164,7 @@ public class RootActor extends Group{
         setOrigin(getWidth() / 2, getHeight() / 2);
         //create a new boundary polygon, with same amount of sides as previously defined
         // divided by 2 because 2 vertices define 1 connection point ( 4 side polygon will have 8 vertices)
-        System.out.println(boundaryPolygon.getVertices().length);
         setBoundaryPolygon(boundaryPolygon.getVertices().length/2);
-        System.out.println(boundaryPolygon.getVertices().length);
     }
 
     @Override
