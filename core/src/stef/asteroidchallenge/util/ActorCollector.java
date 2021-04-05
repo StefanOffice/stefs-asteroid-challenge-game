@@ -28,5 +28,14 @@ public class ActorCollector {
         return list;
     }
 
+    /**
+     * Returns the number of  objects belonging to the specified class that are currently present at the specified stage
+     */
+    public static <E extends RootActor> int getActiveInstanceCount(Stage stage, Class<E> requiredClass) {
+        return getActiveInstanceList(stage, requiredClass).size();
+    }
+
+
+
 
 }
