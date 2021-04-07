@@ -33,8 +33,8 @@ public class Asteroid extends RootActor{
      * @param parent - the asteroid from which new asteroids are formed
      * @param motionAngle - angle of motion for the new asteroid
      */
-    public Asteroid(Asteroid parent, float motionAngle){
-        this(0,0, parent.getStage());
+    public Asteroid(Asteroid parent, float motionAngle, Stage stage){
+        this(0,0, stage);
         //mostly doubling the parent values, and reducing the size to half the parent size
         while(getWidth() * 2 > parent.getWidth())
             resize(0.8f);

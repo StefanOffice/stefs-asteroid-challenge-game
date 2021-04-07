@@ -8,9 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
+import java.io.File;
 
 import stef.asteroidchallenge.screen.AbstractScreen;
 import stef.asteroidchallenge.screen.MenuScreen;
+import stef.asteroidchallenge.util.ScoreManager;
 
 public class AsteroidGame extends Game {
 
@@ -20,6 +24,7 @@ public class AsteroidGame extends Game {
 	//a default style to use for labels
 	public static Label.LabelStyle labelStyle;
 	public static BitmapFont gameFont;
+	public static Skin skin;
 
 	@Override
 	public void create () {
@@ -27,7 +32,7 @@ public class AsteroidGame extends Game {
 		InputMultiplexer im = new InputMultiplexer();
 		Gdx.input.setInputProcessor(im);
 		setActiveScreen(new MenuScreen());
-
+		//used for labels to reduce boilerplate code
 		labelStyle = new Label.LabelStyle();
 		//default font created is size 15 arial included in the libgdx libraries
 
@@ -42,8 +47,19 @@ public class AsteroidGame extends Game {
 		fontParameters.minFilter = Texture.TextureFilter.Linear;
 		fontParameters.magFilter = Texture.TextureFilter.Linear;
 		gameFont = fontGenerator.generateFont(fontParameters);
-
 		labelStyle.font = gameFont;
+
+		//skin is used for creating some of the uiElements
+		skin = new Skin(Gdx.files.internal("default-skin/uiskin.json"));
+
+		ScoreManager.loadHighScores("leaderboard.txt");
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		//when the game is getting ready to be closed save the scores to the file
+		ScoreManager.saveHighScores("leaderboard.txt");
 	}
 
 	public AsteroidGame(){
