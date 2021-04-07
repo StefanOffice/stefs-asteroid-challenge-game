@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import stef.asteroidchallenge.AsteroidGame;
 import stef.asteroidchallenge.actor.Asteroid;
 import stef.asteroidchallenge.actor.Explosion;
 import stef.asteroidchallenge.actor.Laser;
@@ -22,6 +24,9 @@ public class LevelScreen extends AbstractScreen {
     private boolean playing;
     private RootActor msgWin;
     private RootActor msgGameOver;
+
+    private int score = 0;
+    private Label scoreLabel;
 
 
     @Override
@@ -60,7 +65,18 @@ public class LevelScreen extends AbstractScreen {
         msgGameOver = new RootActor(0, 0);
         msgGameOver.setAnimation(AnimationCreator.loadTexture("msg-gameover-red.png"));
 
+        scoreLabel = new Label("Score: 0", AsteroidGame.labelStyle);
+
+        uiTable.add(scoreLabel).right().expandX().pad(10);
+
+        uiTable.row();
+        uiTable.add().expandY();
+
+        uiTable.row();
         uiTable.add(msgWin).center();
+
+        uiTable.row();
+        uiTable.add().expandY();
     }
 
     @Override
@@ -91,6 +107,7 @@ public class LevelScreen extends AbstractScreen {
             for (Laser laser : ActorCollector.getActiveInstanceList(mainStage, Laser.class)) {
                 //if the laser hits the asteroid
                 if (laser.overlaps(asteroid)) {
+                    score += 110;
                     //create and explosion
                     Explosion explosion = new Explosion(0, 0, mainStage);
                     explosion.resize(1.5f);
@@ -107,6 +124,9 @@ public class LevelScreen extends AbstractScreen {
             }
         }
 
+        //update the score label
+        scoreLabel.setText("Score: " + score);
+
         //check if all asteroids are destroyed - level complete
         if (playing && ActorCollector.getActiveInstanceCount(mainStage, Asteroid.class) == 0) {
             showEndMsg(true);
@@ -118,8 +138,11 @@ public class LevelScreen extends AbstractScreen {
     public boolean keyDown(int keycode) {
 
         // if the player presses 'space' on the keyboard, fire a laser
-        if (playing && keycode == Input.Keys.SPACE)
+        if (playing && keycode == Input.Keys.SPACE) {
+            //reduce score for each laser used
+            score -= 10;
             spaceship.shoot();
+        }
 
         return false;
     }
