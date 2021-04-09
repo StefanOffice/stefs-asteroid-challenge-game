@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -50,6 +52,14 @@ public abstract class AbstractScreen implements Screen, InputProcessor {
     }
     //template method to be overridden in each screen individually
     public abstract void update(float dt);
+
+    /**
+     * @param event - the event to be evaluated
+     * @return - true if the specified event's type is touchDown
+     */
+    public boolean isTouchDownEvent(Event event){
+        return (event instanceof InputEvent) && ((InputEvent)event).getType().equals(InputEvent.Type.touchDown);
+    }
 
     //methods required by the screen interface
     public void resize(int width, int height){}
