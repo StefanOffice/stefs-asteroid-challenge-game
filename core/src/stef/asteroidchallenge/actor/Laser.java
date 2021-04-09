@@ -9,7 +9,7 @@ public class Laser extends RootActor{
 
     public Laser(float x, float y, Stage stage){
         super(x,y,stage);
-        setAnimation(AnimationCreator.createAnimationFromSheet("laser.png", 2, 1, 0.05f, true));
+        setAnimation(AnimationCreator.createAnimationFromSheet("actors/laser.png", 2, 1, 0.05f, true));
 
         resize(0.3f);
         setOpacity(0);

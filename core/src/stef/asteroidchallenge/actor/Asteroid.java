@@ -8,7 +8,7 @@ import stef.asteroidchallenge.util.AnimationCreator;
 
 public class Asteroid extends RootActor{
 
-    public static final String[] ASTEROID_FILE_NAMES = {"asteroid-1.png","asteroid-2.png","asteroid-3.png","asteroid-4.png"};
+    public static final String[] ASTEROID_FILE_NAMES = {"actors/asteroid-1.png","actors/asteroid-2.png","actors/asteroid-3.png","actors/asteroid-4.png"};
 
     public Asteroid(float x, float y, Stage stage){
         super(x,y, stage);

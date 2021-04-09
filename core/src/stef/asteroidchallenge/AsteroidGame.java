@@ -21,10 +21,25 @@ public class AsteroidGame extends Game {
 	//maintains a static reference to itself in order for other classes to be able to switch screens.
 	private static AsteroidGame game;
 
+	//used to set screen resolution
+	private static int gameWidth;
+	private static int gameHeight;
+
 	//a default style to use for labels
 	public static Label.LabelStyle labelStyle;
 	public static BitmapFont gameFont;
 	public static Skin skin;
+
+	public AsteroidGame(){
+		this(1280, 720);
+	}
+
+	public AsteroidGame(int gameWidth, int gameHeight){
+		setGameWidth(gameWidth);
+		setGameHeight(gameHeight);
+		game = this;
+	}
+
 
 	@Override
 	public void create () {
@@ -55,6 +70,10 @@ public class AsteroidGame extends Game {
 		ScoreManager.loadHighScores("leaderboard.txt");
 	}
 
+	public static void setActiveScreen(AbstractScreen screen){
+		game.setScreen(screen);
+	}
+
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -62,11 +81,19 @@ public class AsteroidGame extends Game {
 		ScoreManager.saveHighScores("leaderboard.txt");
 	}
 
-	public AsteroidGame(){
-		game = this;
+	public static int getGameWidth() {
+		return gameWidth;
 	}
 
-	public static void setActiveScreen(AbstractScreen screen){
-		game.setScreen(screen);
+	public static void setGameWidth(int gameWidth) {
+		AsteroidGame.gameWidth = gameWidth;
+	}
+
+	public static int getGameHeight() {
+		return gameHeight;
+	}
+
+	public static void setGameHeight(int gameHeight) {
+		AsteroidGame.gameHeight = gameHeight;
 	}
 }

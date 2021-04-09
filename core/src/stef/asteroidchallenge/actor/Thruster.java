@@ -9,7 +9,7 @@ public class Thruster extends RootActor{
 
     public Thruster(float x, float y){
         super(x,y);
-        setAnimation(AnimationCreator.createAnimationFromFiles(new String[]{"thrusters-1.png", "thrusters-2.png"},0.1f, true));
+        setAnimation(AnimationCreator.createAnimationFromFiles(new String[]{"actors/thrusters-1.png", "actors/thrusters-2.png"},0.1f, true));
 
         resize(0.2f);
     }

@@ -8,7 +8,7 @@ public class Explosion extends RootActor{
 
     public Explosion(float x, float y, Stage stage){
         super(x,y,stage);
-        setAnimation(AnimationCreator.createAnimationFromSheet("explosion.png", 1 , 8, 0.05f,false));
+        setAnimation(AnimationCreator.createAnimationFromSheet("actors/explosion.png", 1 , 8, 0.05f,false));
     }
 
     public void act(float dt){

@@ -14,7 +14,7 @@ public class SpaceShip extends RootActor {
 
     public SpaceShip(float x, float y, Stage stage) {
         super(x, y, stage);
-        setAnimation(AnimationCreator.loadTexture("spaceship.png"));
+        setAnimation(AnimationCreator.loadTexture("actors/spaceship.png"));
         resize(0.2f);
         //overwrite the default speed settings(from RootActor)
         setAcceleration(300);

@@ -14,7 +14,7 @@ public class Shield extends RootActor{
 
     public Shield(float x, float y){
         super(x,y);
-        setAnimation(AnimationCreator.loadTexture("shield.png"));
+        setAnimation(AnimationCreator.loadTexture("actors/shield.png"));
         //adjust texture size
         resize(2.2f);
 

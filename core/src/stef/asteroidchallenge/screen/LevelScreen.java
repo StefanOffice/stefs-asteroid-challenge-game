@@ -14,6 +14,7 @@ import java.util.Date;
 import stef.asteroidchallenge.AsteroidGame;
 import stef.asteroidchallenge.Player;
 import stef.asteroidchallenge.actor.Asteroid;
+import stef.asteroidchallenge.actor.Background;
 import stef.asteroidchallenge.actor.Explosion;
 import stef.asteroidchallenge.actor.Laser;
 import stef.asteroidchallenge.actor.RootActor;
@@ -42,12 +43,12 @@ public class LevelScreen extends AbstractScreen {
     public void initialize() {
         playing = true;
 
-        RootActor space = new RootActor(0, 0, mainStage);
-        space.setAnimation(AnimationCreator.loadTexture("space-1.png"));
-        space.setSize(1280, 720);
-        RootActor.setWorldBounds(space);
+        Background layer1 = new Background("backgrounds/space-1.png", mainStage, true);
+        Background layer2 = new Background("backgrounds/starfield.png", mainStage, false);
+        layer2.addFadeInAndOut(0.5f, 0, 4, 0.6f, 5);
 
-        spaceship = new SpaceShip(1280 / 2f, 720 / 2f, mainStage);
+        //initialize the spaceship at the center of the screen
+        spaceship = new SpaceShip(AsteroidGame.getGameWidth() / 2f, AsteroidGame.getGameHeight() / 2f, mainStage);
 
         //create the starting asteroids
         for (int i = 0; i < STARTING_ASTEROIDS; i++) {
@@ -55,8 +56,8 @@ public class LevelScreen extends AbstractScreen {
             float startY;
             do {
                 //randomly generate starting position
-                startX = (float) (Math.random() * space.getWidth());
-                startY = (float) (Math.random() * space.getHeight());
+                startX = (float) (Math.random() * AsteroidGame.getGameWidth());
+                startY = (float) (Math.random() * AsteroidGame.getGameHeight());
                 //if the starting position is too close to the ship on either x or y axis,
                 // recalculate the starting position of the asteroid
             } while ((startX < spaceship.getX() + 200 && startX > spaceship.getX() - 200)
@@ -65,14 +66,14 @@ public class LevelScreen extends AbstractScreen {
             new Asteroid(startX, startY, mainStage);
         }
 
-        //will be displayed in case the playere completes the level
+        //will be displayed in case the player completes the level
         msgWin = new RootActor(0, 0);
-        msgWin.setAnimation(AnimationCreator.loadTexture("msg-lvl-complete.png"));
+        msgWin.setAnimation(AnimationCreator.loadTexture("text/msg-lvl-complete.png"));
         msgWin.setVisible(false);
 
         //will be displayed in case player is destroyed
         msgGameOver = new RootActor(0, 0);
-        msgGameOver.setAnimation(AnimationCreator.loadTexture("msg-gameover-red.png"));
+        msgGameOver.setAnimation(AnimationCreator.loadTexture("text/msg-gameover-red.png"));
 
         //upper right corner display of current score
         scoreLabel = new Label("Score: 0", AsteroidGame.labelStyle);
@@ -91,6 +92,7 @@ public class LevelScreen extends AbstractScreen {
         errorLabel = new Label("", AsteroidGame.labelStyle);
         errorLabel.setVisible(false);
 
+        //Add all UI elements to the table
         uiTable.add(scoreLabel).right().expandX().pad(10);
 
         uiTable.row();

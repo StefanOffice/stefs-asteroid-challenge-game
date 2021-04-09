@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import stef.asteroidchallenge.AsteroidGame;
+import stef.asteroidchallenge.actor.Background;
 import stef.asteroidchallenge.util.AnimationCreator;
 import stef.asteroidchallenge.actor.RootActor;
 
@@ -13,15 +14,20 @@ public class MenuScreen extends AbstractScreen {
 
     @Override
     public void initialize() {
-        RootActor space = new RootActor(0,0, mainStage);
-        space.setAnimation(AnimationCreator.loadTexture("space-1.png"));
-        space.setSize(1280, 720);
+        //Overlapping backgrounds fadding in and out to achieve a dynamic background effect
+        Background layer1 = new Background( "backgrounds/space-2.png", mainStage, true);
+        layer1.addFadeInAndOut(1f, 0, 5, 1, 5);
+        Background layer2 = new Background( "backgrounds/starfield.png", mainStage, false);
+        layer2.addFadeInAndOut(0.5f, 0.4f, 3, 0.7f, 3);
+        Background layer3 = new Background("backgrounds/space-1.png", mainStage, false);
+        layer3.addFadeInAndOut(0.5f, 0f, 6, 0.85f, 6);
+
 
         RootActor title = new RootActor(0,0, uiStage);
-        title.setAnimation(AnimationCreator.loadTexture("title-menu.png"));
+        title.setAnimation(AnimationCreator.loadTexture("text/title-menu.png"));
 
         RootActor msgStart = new RootActor(0, 0, uiStage);
-        msgStart.setAnimation(AnimationCreator.loadTexture("msg-start.png"));
+        msgStart.setAnimation(AnimationCreator.loadTexture("text/msg-start.png"));
         msgStart.setScale(0.6f);
         msgStart.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(2), Actions.fadeIn(2))));
 
