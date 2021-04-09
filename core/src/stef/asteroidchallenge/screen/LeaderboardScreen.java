@@ -13,11 +13,11 @@ import stef.asteroidchallenge.AsteroidGame;
 import stef.asteroidchallenge.Player;
 import stef.asteroidchallenge.actor.Background;
 import stef.asteroidchallenge.actor.RootActor;
+import stef.asteroidchallenge.ui.NavigationButton;
 import stef.asteroidchallenge.util.AnimationCreator;
 import stef.asteroidchallenge.util.ScoreManager;
 
 public class LeaderboardScreen extends AbstractScreen {
-
 
     @Override
     public void initialize() {
@@ -48,20 +48,10 @@ public class LeaderboardScreen extends AbstractScreen {
             uiTable.add(new Label(formatter.format(bestPlayers[i].date),AsteroidGame.labelStyle));
         }
 
-        //standard button setup see MenuScreen for details
-        Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
-        buttonStyle.up = new TextureRegionDrawable(new Texture("text/btn-mainmenu.png"));
-        buttonStyle.over = new TextureRegionDrawable(new Texture("text/btn-mainmenu-over.png"));
-        Button menuBtn = new Button(buttonStyle);
-        menuBtn.addListener(e -> {
-            if (!isTouchDownEvent(e))
-                return false;
-            AsteroidGame.setActiveScreen(new MenuScreen());
-            return false;
-        });
+        NavigationButton btnMenu = new NavigationButton("text/btn-mainmenu.png","text/btn-mainmenu-over.png", MenuScreen.class);
 
         uiTable.row();
-        uiTable.add(menuBtn).colspan(4).bottom().expandY();
+        uiTable.add(btnMenu).colspan(4).bottom().expandY();
     }
 
     @Override

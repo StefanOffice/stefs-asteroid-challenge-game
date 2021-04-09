@@ -2,13 +2,9 @@ package stef.asteroidchallenge.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
 import stef.asteroidchallenge.AsteroidGame;
+import stef.asteroidchallenge.ui.NavigationButton;
 import stef.asteroidchallenge.actor.Background;
 import stef.asteroidchallenge.util.AnimationCreator;
 import stef.asteroidchallenge.actor.RootActor;
@@ -30,22 +26,7 @@ public class MenuScreen extends AbstractScreen {
         RootActor title = new RootActor(0,0, uiStage);
         title.setAnimation(AnimationCreator.loadTexture("text/title-menu.png"));
 
-
-        ButtonStyle buttonStyle = new ButtonStyle();
-        //set up the default button texture
-        buttonStyle.up = new TextureRegionDrawable(new Texture("text/leaderboard-title.png"));
-        //set up the texture to display when mouse is hovering over the button
-        buttonStyle.over = new TextureRegionDrawable(new Texture("text/btn-leaderboard-over.png"));
-        //initialize the button
-        Button btnLeaderboard = new Button(buttonStyle);
-        //setup what happens on mouse click
-        //in this case it's just used for navigation between different screens
-        btnLeaderboard.addListener(e -> {
-            if (!isTouchDownEvent(e))
-                return false;
-            AsteroidGame.setActiveScreen(new LeaderboardScreen());
-            return false;
-        });
+        NavigationButton btnLeaderboard = new NavigationButton("text/leaderboard-title.png","text/btn-leaderboard-over.png", LeaderboardScreen.class);
 
         RootActor msgStart = new RootActor(0, 0, uiStage);
         msgStart.setAnimation(AnimationCreator.loadTexture("text/msg-start.png"));

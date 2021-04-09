@@ -31,6 +31,7 @@ public abstract class AbstractScreen implements Screen, InputProcessor {
         //template method to be overridden in each screen individually
         initialize();
     }
+
     //template method to be overridden in each screen individually
     public abstract void initialize();
 
