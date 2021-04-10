@@ -2,8 +2,10 @@ package stef.asteroidchallenge.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import stef.asteroidchallenge.AsteroidGame;
 import stef.asteroidchallenge.util.AnimationCreator;
 
 public class SpaceShip extends RootActor {
@@ -77,6 +79,23 @@ public class SpaceShip extends RootActor {
         laser.setRotation(this.getRotation());
         laser.setMotionAngle(this.getRotation());
 
+    }
+
+    /**
+     * Instantly teleports the spaceship to a random location
+     */
+    public void warp(){
+        if(getStage() == null)
+            return;
+
+        //create an energy could at ships location
+        WarpCloud cloud1 = new WarpCloud(0,0, this.getStage());
+        cloud1.centerAtActor(this);
+        //teleport the ship to a random location on the map
+        setPosition(MathUtils.random(AsteroidGame.getGameWidth()), MathUtils.random(AsteroidGame.getGameHeight()));
+        //create another energy could at the ships new location
+        WarpCloud cloud2 = new WarpCloud(0,0, this.getStage());
+        cloud2.centerAtActor(this);
     }
 
     public Shield getShield() {

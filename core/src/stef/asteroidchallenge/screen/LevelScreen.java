@@ -179,6 +179,11 @@ public class LevelScreen extends AbstractScreen {
             spaceship.shoot();
         }
 
+        if (playing && keycode == Input.Keys.R) {
+                score -= 50;
+                spaceship.warp();
+        }
+
         //if the game is over and esc key is pressed go back to the main menu
         if (!playing && !playerNameTextField.isVisible()
                 && Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
