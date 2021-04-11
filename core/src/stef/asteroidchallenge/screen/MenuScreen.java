@@ -27,6 +27,7 @@ public class MenuScreen extends AbstractScreen {
         title.setAnimation(AnimationCreator.loadTexture("text/title-menu.png"));
 
         NavigationButton btnLeaderboard = new NavigationButton("text/leaderboard-title.png","text/btn-leaderboard-over.png", LeaderboardScreen.class);
+        NavigationButton btnControls = new NavigationButton("text/btn-controls.png","text/btn-controls-over.png", InfoScreen.class);
 
         RootActor msgStart = new RootActor(0, 0, uiStage);
         msgStart.setAnimation(AnimationCreator.loadTexture("text/msg-start.png"));
@@ -39,6 +40,9 @@ public class MenuScreen extends AbstractScreen {
 
         uiTable.row();
         uiTable.add().top().expandY();
+
+        uiTable.row();
+        uiTable.add(btnControls);
 
         uiTable.row();
         uiTable.add(btnLeaderboard);
