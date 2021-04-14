@@ -26,8 +26,16 @@ public class MenuScreen extends AbstractScreen {
         RootActor title = new RootActor(0,0, uiStage);
         title.setAnimation(AnimationCreator.loadTexture("text/title-menu.png"));
 
+        NavigationButton btnPlay = new NavigationButton("text/btn-play.png","text/btn-play-over.png", LevelScreen.class);
         NavigationButton btnLeaderboard = new NavigationButton("text/leaderboard-title.png","text/btn-leaderboard-over.png", LeaderboardScreen.class);
         NavigationButton btnControls = new NavigationButton("text/btn-controls.png","text/btn-controls-over.png", InfoScreen.class);
+        NavigationButton btnQuit = new NavigationButton("text/btn-quit.png","text/btn-quit-over.png");
+        btnQuit.addListener(e -> {
+            if (!isTouchDownEvent(e))
+                return false;
+            Gdx.app.exit();
+            return false;
+        });
 
         RootActor msgStart = new RootActor(0, 0, uiStage);
         msgStart.setAnimation(AnimationCreator.loadTexture("text/msg-start.png"));
@@ -39,13 +47,19 @@ public class MenuScreen extends AbstractScreen {
         uiTable.add(title);
 
         uiTable.row();
-        uiTable.add().top().expandY();
+        uiTable.add().expandY();
+
+        uiTable.row();
+        uiTable.add(btnPlay);
 
         uiTable.row();
         uiTable.add(btnControls);
 
         uiTable.row();
         uiTable.add(btnLeaderboard);
+
+        uiTable.row();
+        uiTable.add(btnQuit);
 
         uiTable.row();
         uiTable.add(msgStart).top();

@@ -42,6 +42,18 @@ public class NavigationButton extends Button {
 
     }
 
+    public NavigationButton(String upTexturePath, String overTexturePath){
+        super();
+        ButtonStyle buttonStyle = new ButtonStyle();
+        //set up the default button texture
+        buttonStyle.up = new TextureRegionDrawable(new Texture(upTexturePath));
+        //set up the texture to display when mouse is hovering over the button
+        buttonStyle.over = new TextureRegionDrawable(new Texture(overTexturePath));
+        //set the style
+        setStyle(buttonStyle);
+        setSize(getPrefWidth(), getPrefHeight());
+    }
+
     /**
      * @param event - the event to be evaluated
      * @return - true if the specified event's type is touchDown
