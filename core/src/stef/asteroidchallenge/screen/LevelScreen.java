@@ -6,10 +6,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Queue;
 
 import java.util.Date;
+import java.util.Stack;
 
 import stef.asteroidchallenge.AsteroidGame;
 import stef.asteroidchallenge.Player;
@@ -25,7 +28,7 @@ import stef.asteroidchallenge.util.ScoreManager;
 
 public class LevelScreen extends AbstractScreen {
 
-    private static final int STARTING_ASTEROIDS = 50;
+    private static final int STARTING_ASTEROIDS = 10;
     private SpaceShip spaceship;
 
     private boolean playing;
@@ -38,6 +41,19 @@ public class LevelScreen extends AbstractScreen {
     private TextField playerNameTextField;
     private Label infoLabel;
     private Label errorLabel;
+
+
+    private static final float LASER_CHARGE_TIME = 0.5f;
+    private Stack<RootActor> lasers;
+    private Stack<RootActor> usedLasers;
+    private float laserChargeTimer = 0;
+
+    private static final float WARP_CHARGE_TIME = 5f;
+    private Stack<RootActor> warps;
+    private Stack<RootActor> usedWarps;
+    private float warpChargeTimer = 0;
+
+
 
     @Override
     public void initialize() {
@@ -111,7 +127,58 @@ public class LevelScreen extends AbstractScreen {
 
         uiTable.row();
         uiTable.add().expandY();
-        uiTable.debugAll();
+
+        //Separate table for statuses
+        // (can also be added to ui table but doing it this way avoids positioning problems
+            //and reduces the amount of code
+        Table statusTable = new Table();
+        statusTable.setFillParent(true);
+        //add and empty row for padding
+        statusTable.add().padTop(10);
+        uiStage.addActor(statusTable);
+        // initialize upper left corner laser status images
+        lasers = new Stack<>();
+        //initialize all the charges and add each to a separate row
+        for (int i = 5; i >= 0; i--) {
+            RootActor laserStatus = new RootActor(0, 0);
+            laserStatus.setAnimation(AnimationCreator.loadTexture("actors/laser-status.png"));
+            laserStatus.resize(0.3f);
+            statusTable.row();
+            statusTable.add(laserStatus).left().padLeft(10);
+            lasers.add(laserStatus);
+        }
+        //used to keep track of which status icons should be visible and which not
+        usedLasers = new Stack<>();
+
+        //add and empty row for padding
+        statusTable.row();
+        statusTable.add().expandY().expandX();
+
+        warps = new Stack<>();
+        for (int i = 3; i >= 0; i--) {
+            RootActor warpStatus = new RootActor(0, 0);
+            warpStatus.setAnimation(AnimationCreator.loadTexture("actors/warp-status.png"));
+            warpStatus.resize(0.3f);
+            statusTable.row();
+            statusTable.add(warpStatus).left().padLeft(10);
+            warps.add(warpStatus);
+        }
+        usedWarps = new Stack<>();
+
+        //flip the order of warps in the stack so that they disappear top to bottom when used
+        //opposite of lasers which disappear bottom to top
+        //purely for aesthetics
+        Queue<RootActor> flipQ = new Queue<>();
+        while(!warps.isEmpty()){
+            flipQ.addLast(warps.pop());
+        }
+        while(!flipQ.isEmpty()){
+            warps.add(flipQ.removeFirst());
+        }
+
+        //add and empty row for padding
+        statusTable.row();
+        statusTable.add().padBottom(10);
     }
 
     @Override
@@ -159,6 +226,26 @@ public class LevelScreen extends AbstractScreen {
             }
         }
 
+        //recharge the lasers
+        laserChargeTimer += dt;
+        if (laserChargeTimer > LASER_CHARGE_TIME) {
+            if (!usedLasers.isEmpty()) {
+                usedLasers.peek().setOpacity(1);
+                lasers.add(usedLasers.pop());
+                laserChargeTimer = 0;
+            }
+        }
+
+        //recharge the warp
+        warpChargeTimer += dt;
+        if (warpChargeTimer > 5) {
+            if (!usedWarps.isEmpty()) {
+                usedWarps.peek().setOpacity(1);
+                warps.add(usedWarps.pop());
+                warpChargeTimer = 0;
+            }
+        }
+
         //update the score label
         scoreLabel.setText("Score: " + score);
 
@@ -174,14 +261,23 @@ public class LevelScreen extends AbstractScreen {
 
         // if the player presses 'space' on the keyboard, fire a laser
         if (playing && keycode == Input.Keys.SPACE) {
-            //reduce score for each laser used
-            score -= 10;
-            spaceship.shoot();
+            if (!lasers.isEmpty()) {
+                score -= 10;
+                spaceship.shoot();
+                lasers.peek().setOpacity(0);
+                usedLasers.add(lasers.pop());
+            }
         }
 
         if (playing && keycode == Input.Keys.R) {
+            if (!warps.isEmpty()) {
                 score -= 50;
                 spaceship.warp();
+                //hide the used charge from the status
+                warps.peek().setOpacity(0);
+                //move it to the used pile
+                usedWarps.add(warps.pop());
+            }
         }
 
         //if the game is over and esc key is pressed go back to the main menu
