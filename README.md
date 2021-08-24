@@ -66,6 +66,9 @@ r - warp to a random location
 
 **Tip** - _try to destroy the smaller asteroids first, if you destroy a bunch of bigger ones they will break into smaller ones, the more asteroids there are in the field, the harder it is to avoid them._
 
+## Download
+You can clone the project and open it in Android Studio, or [click here](https://github.com/StefanOffice/stefs-asteroid-challenge-game/releases/tag/1.0) to download the executable jar file and run it to play the game.
+
 ### Thank you!
 
 Thank you for checking out my project. I hope you enjoyed this game, as much as i enjoyed making it. :wink: 
